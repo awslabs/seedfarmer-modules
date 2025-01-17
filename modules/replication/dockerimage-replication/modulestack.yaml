@@ -2,18 +2,24 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: This stack deploys a Module specific IAM permissions
 
 Parameters:
-  # DeploymentName:
-  #   Type: String
-  #   Description: The name of the deployment
-  # ModuleName:
-  #   Type: String
-  #   Description: The name of the Module
   ProjectName:
     Type: String
     Description: The name of the project
   RoleName:
     Type: String
     Description: The name of the IAM Role
+  HelmDistroSecretName:
+    Type: String
+    Description: The name of the IAM Role
+    Default: ""
+  HostedRepoSecretName:
+    Type: String
+    Description: The name of the IAM Role
+    Default: ""
+
+Conditions:
+  HasHelmDistroSecretName: !Not [!Equals [!Ref HelmDistroSecretName, ""]]
+  HasHostedRepoSecretName: !Not [!Equals [!Ref HostedRepoSecretName, ""]]
 
 Resources:
   Policy:
@@ -54,6 +60,29 @@ Resources:
             Effect: Allow
             Resource:
               - !Sub "arn:${AWS::Partition}:s3:::*-d*-rep*-*/*"
+          - !If 
+            - HasHelmDistroSecretName
+            - 
+              Effect: Allow
+              Sid: HelmRepoSecretsManager
+              Action:
+                - secretsmanager:GetSecretValue
+                - secretsmanager:DescribeSecret
+              Resource:
+                - Fn::Sub: "arn:${AWS::Partition}:secretsmanager:*:${AWS::AccountId}:secret:${HelmDistroSecretName}*"
+            - !Ref AWS::NoValue
+          - !If 
+            - HasHostedRepoSecretName
+            - 
+              Effect: Allow
+              Sid: HostedRepoSecretsManager
+              Action:
+                - secretsmanager:GetSecretValue
+                - secretsmanager:DescribeSecret
+              Resource:
+                - Fn::Sub: "arn:${AWS::Partition}:secretsmanager:*:${AWS::AccountId}:secret:${HostedRepoSecretName}*"
+            - !Ref AWS::NoValue
+            
         Version: 2012-10-17
       PolicyName: "modulespecific-policy"
       Roles: [!Ref RoleName]

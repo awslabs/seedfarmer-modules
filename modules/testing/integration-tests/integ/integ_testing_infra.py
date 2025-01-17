@@ -5,9 +5,9 @@ import os
 from typing import Dict, List
 
 import aws_cdk as cdk
-import aws_cdk.cloud_assembly_schema as cas
-import aws_cdk.integ_tests_alpha as integration
-import boto3
+import aws_cdk.cloud_assembly_schema as cas  # type: ignore
+import aws_cdk.integ_tests_alpha as integration  # type: ignore
+import boto3  # type: ignore
 
 sys.path.append("../")
 
@@ -48,7 +48,7 @@ integration.IntegTest(
             manifests=[],
             repo_owner="awslabs",
             repo_name="idf-modules",
-            oauth_token_secret_name=os.getenv("OAUTH_TOKEN_SECRET_NAME"),
+            oauth_token_secret_name=os.getenv("OAUTH_TOKEN_SECRET_NAME"),  # type: ignore
             seedfarmer_project_name="integration-tests",
             assets_path="../artifacts",
             create_github_source_credentials=False,

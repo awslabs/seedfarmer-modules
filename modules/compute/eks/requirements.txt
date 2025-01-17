@@ -125,7 +125,7 @@ typeguard==2.13.3
     #   cdk-nag
     #   constructs
     #   jsii
-typing-extensions==4.9.0
+typing-extensions>=4.12.0
     # via
     #   cattrs
     #   jsii

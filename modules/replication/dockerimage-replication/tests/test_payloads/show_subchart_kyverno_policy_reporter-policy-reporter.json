@@ -1,0 +1,156 @@
+{
+    "chart": {
+        "apiVersion": "v2",
+        "appVersion": "1.6.3",
+        "description": "Policy Reporter Kyverno Plugin",
+        "name": "kyvernoPlugin",
+        "type": "application",
+        "version": "1.6.5"
+    },
+    "values": {
+        "image": {
+            "registry": "ghcr.io",
+            "repository": "kyverno/policy-reporter-kyverno-plugin",
+            "pullPolicy": "IfNotPresent",
+            "tag": "1.6.3"
+        },
+        "imagePullSecrets": [],
+        "priorityClassName": "",
+        "replicaCount": 1,
+        "revisionHistoryLimit": 10,
+        "deploymentStrategy": {},
+        "port": {
+            "name": "rest",
+            "number": 8080
+        },
+        "annotations": {},
+        "rbac": {
+            "enabled": true
+        },
+        "serviceAccount": {
+            "create": true,
+            "annotations": {},
+            "name": ""
+        },
+        "service": {
+            "enabled": true,
+            "annotations": {},
+            "labels": {},
+            "port": 8080,
+            "type": "ClusterIP"
+        },
+        "ingress": {
+            "enabled": false,
+            "className": "",
+            "labels": {},
+            "annotations": {},
+            "hosts": [
+                {
+                    "host": "chart-example.local",
+                    "paths": []
+                }
+            ],
+            "tls": []
+        },
+        "podSecurityContext": {
+            "runAsUser": 1234,
+            "runAsGroup": 1234
+        },
+        "securityContext": {
+            "runAsUser": 1234,
+            "runAsNonRoot": true,
+            "privileged": false,
+            "allowPrivilegeEscalation": false,
+            "readOnlyRootFilesystem": true,
+            "capabilities": {
+                "drop": [
+                    "ALL"
+                ]
+            },
+            "seccompProfile": {
+                "type": "RuntimeDefault"
+            }
+        },
+        "podAnnotations": {},
+        "podLabels": {},
+        "envVars": [],
+        "resources": {},
+        "nodeSelector": {},
+        "tolerations": [],
+        "affinity": {},
+        "topologySpreadConstraints": [],
+        "livenessProbe": {
+            "httpGet": {
+                "path": "/healthz",
+                "port": "rest"
+            }
+        },
+        "readinessProbe": {
+            "httpGet": {
+                "path": "/ready",
+                "port": "rest"
+            }
+        },
+        "rest": {
+            "enabled": true
+        },
+        "metrics": {
+            "enabled": true
+        },
+        "logging": {
+            "encoding": "console",
+            "logLevel": 0,
+            "development": false
+        },
+        "api": {
+            "logging": false
+        },
+        "blockReports": {
+            "enabled": false,
+            "eventNamespace": "default",
+            "results": {
+                "maxPerReport": 200,
+                "keepOnlyLatest": false
+            }
+        },
+        "leaderElection": {
+            "enabled": false,
+            "releaseOnCancel": true,
+            "leaseDuration": 15,
+            "renewDeadline": 10,
+            "retryPeriod": 2
+        },
+        "podDisruptionBudget": {
+            "minAvailable": 1,
+            "maxUnavailable": null
+        },
+        "networkPolicy": {
+            "enabled": false,
+            "egress": [
+                {
+                    "to": null,
+                    "ports": [
+                        {
+                            "protocol": "TCP",
+                            "port": 6443
+                        }
+                    ]
+                }
+            ],
+            "ingress": []
+        },
+        "global": {
+            "plugins": {
+                "kyverno": false
+            },
+            "fullnameOverride": "",
+            "namespace": "",
+            "labels": {},
+            "basicAuth": {
+                "username": "",
+                "password": "",
+                "secretRef": ""
+            }
+        }
+    }
+}

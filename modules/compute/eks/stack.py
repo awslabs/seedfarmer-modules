@@ -1385,7 +1385,7 @@ class Eks(Stack):  # type: ignore
                         },
                     },
                     get_chart_values(
-                        str(eks_version),
+                        replicated_ecr_images_metadata,
                         KYVERNO_POLICY_REPORTER,
                     ),
                 ),
@@ -1699,7 +1699,7 @@ class Eks(Stack):  # type: ignore
                     },
                     "webhook": {"securePort": 10260, "hostNetwork": True},
                 },
-                get_chart_values(str(eks_version), CERT_MANAGER),
+                get_chart_values(replicated_ecr_images_metadata, CERT_MANAGER),
             ),
         )
         cert_manager_chart.node.add_dependency(cert_manager_service_account)

@@ -4,7 +4,7 @@ deploy:
     install:
       commands:
         - pip install -r requirements.txt
-        - wget https://get.helm.sh/helm-v3.11.3-linux-amd64.tar.gz && tar zxf helm-v3.11.3-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin/helm
+        - python install_helm.py
     build:
       commands:
         # dkr - docker; img - images; rep - replications; md - metadata
@@ -19,24 +19,36 @@ deploy:
             fi
             sleep 15
           fi
-        - python3 get-list-of-eks-images.py --eks-version ${SEEDFARMER_PARAMETER_EKS_VERSION} --versions-directory data/eks_dockerimage-replication/versions --update-helm-repos --registry-prefix "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${SEEDFARMER_PROJECT_NAME}-"        
-        - chmod +x replication.sh
-        - bash replication.sh create
+        - |
+          if [ "$AWS_PARTITION" = "aws-cn" ]; then
+            DOMAIN="amazonaws.com.cn"
+          else
+            DOMAIN="amazonaws.com"
+          fi
+        - |
+          python get_list_eks_images.py \
+            --eks-version ${SEEDFARMER_PARAMETER_EKS_VERSION} \
+            --versions-directory data/eks_dockerimage-replication/versions \
+            --update-helm-repos \
+            --registry-prefix "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.${DOMAIN}/${SEEDFARMER_PROJECT_NAME}-"
+        - python replicate_images.py
+        - python replicate_charts.py
         - aws s3 cp replication-result.json s3://${S3_BUCKET_NAME}/${S3_OBJECT_NAME}
-        - >
-          echo "s3_bucket: ${S3_BUCKET_NAME}" > s3_metadata.yaml
-        - >
-          echo "s3_object: ${S3_OBJECT_NAME}" >> s3_metadata.yaml
-        - >
-          echo "s3_full_path: ${S3_BUCKET_NAME}/${S3_OBJECT_NAME}" >> s3_metadata.yaml
-        - cat s3_metadata.yaml
-        - export SEEDFARMER_MODULE_METADATA=$(python -c "import yaml; import json; file=open('s3_metadata.yaml'); print(json.dumps(yaml.safe_load(file)))")
+        - seedfarmer metadata add -k S3Bucket -v ${S3_BUCKET_NAME}
+        - seedfarmer metadata add -k S3Object -v ${S3_OBJECT_NAME}
+        - seedfarmer metadata add -k S3FullPath -v ${S3_BUCKET_NAME}/${S3_OBJECT_NAME}
+        # For backward compatibility, the following element names have been preserved 
+        - seedfarmer metadata add -k s3_bucket -v ${S3_BUCKET_NAME}
+        - seedfarmer metadata add -k s3_object -v ${S3_OBJECT_NAME}
+        - seedfarmer metadata add -k s3_full_path -v ${S3_BUCKET_NAME}/${S3_OBJECT_NAME}
 
 destroy:
   phases:
+    install:
+      commands:
+        - pip install -r requirements.txt
     build:
       commands:
-        - chmod +x replication.sh
-        # The below command removes the ECR repos with `idf` as prefix which has the replicated images. PLEASE USE IT AT YOUR OWN RISK
-        - bash replication.sh destroy
-build_type: BUILD_GENERAL1_LARGE
+        - echo "Deletion of ECR repos must be uncommented in deployspec"
+        #- python delete_repos.py ${SEEDFARMER_PROJECT_NAME}
+build_type: BUILD_GENERAL1_XLARGE

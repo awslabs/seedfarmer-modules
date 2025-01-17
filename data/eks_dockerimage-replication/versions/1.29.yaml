@@ -2,13 +2,13 @@ ami:
   version: 1.29.3-20240703
 charts:
   nvidia_device_plugin:
-    version: v0.14.5
+    version: 0.14.5
   alb_controller:
     version: 1.7.0
   aws_vpc_cni:
     version: 1.18.2
   calico:
-    version: 3.25.1
+    version: v3.25.1
   cert_manager:
     version: v1.16.2
   cluster_autoscaler:
@@ -38,7 +38,7 @@ charts:
   kyverno:
     version: 2.7.2
   kyverno_policy_reporter:
-    version: v2.24.2
+    version: 2.24.2
   metrics_server:
     version: 3.9.0
   prometheus_stack:

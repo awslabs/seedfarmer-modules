@@ -21,7 +21,7 @@ if len(f"{project_name}-{deployment_name}") > 36:
 
 def get_arg_value(
     name: str, default: Optional[str] = None, required: Optional[bool] = True
-) -> str:
+) -> Optional[str]:
     value = (
         os.getenv(f"SEEDFARMER_PARAMETER_{name}", default)
         if default
@@ -47,13 +47,13 @@ branch = get_arg_value("BRANCH", required=False)
 stack = IntegrationTestsInfrastructure(
     app,
     f"{project_name}-{deployment_name}-{module_name}",
-    deployment_name=deployment_name,
-    module_name=module_name,
-    manifests=manifests,
-    repo_owner=repo_owner,
-    repo_name=repo_name,
-    oauth_token_secret_name=oauth_token_secret_name,
-    seedfarmer_project_name=project_name,
+    deployment_name=str(deployment_name),
+    module_name=str(module_name),
+    manifests=manifests,  # type: ignore
+    repo_owner=str(repo_owner),
+    repo_name=str(repo_name),
+    oauth_token_secret_name=str(oauth_token_secret_name),
+    seedfarmer_project_name=str(project_name),
     branch=branch,
 )
 

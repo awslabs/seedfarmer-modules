@@ -1,3 +1,4 @@
 boto3==1.26.81
 deepmerge==1.1.0
-PyYAML==6.0
+PyYAML~=6.0.2
+requests==2.32.2

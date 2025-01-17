@@ -1,0 +1,31 @@
+{
+    "kyverno_policy_reporter": {
+        "helm": {
+            "name": "policy-reporter",
+            "repository": "oci://123456789012.dkr.ecr.us-east-1.amazonaws.com/idffulltest-helm-remote-kyverno-gh-io-policy-rep/policy-reporter",
+            "version": "2.24.2",
+            "srcRepository": "https://customdns/charts/helm-remote-kyverno-gh-io-policy-rep/"
+        },
+        "values": {
+            "kyvernoPlugin": {
+                "image": {
+                    "registry": "123456789012.dkr.ecr.us-east-1.amazonaws.com/idffulltest-ghcr.io",
+                    "repository": "kyverno/policy-reporter-kyverno-plugin",
+                    "tag": "1.6.3"
+                }
+            },
+            "image": {
+                "registry": "123456789012.dkr.ecr.us-east-1.amazonaws.com/idffulltest-ghcr.io",
+                "repository": "kyverno/policy-reporter",
+                "tag": "2.20.2"
+            },
+            "ui": {
+                "image": {
+                    "registry": "123456789012.dkr.ecr.us-east-1.amazonaws.com/idffulltest-ghcr.io",
+                    "repository": "kyverno/policy-reporter-ui",
+                    "tag": "1.9.2"
+                }
+            }
+        }
+    }
+}

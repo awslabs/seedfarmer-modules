@@ -1,7 +1,7 @@
 import json
 import sys
 
-import boto3
+import boto3  # type: ignore
 
 iam = boto3.client("iam")
 ROLE_ARN = sys.argv[1]

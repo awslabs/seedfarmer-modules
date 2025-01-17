@@ -58,5 +58,4 @@ def parse_args(args: Any) -> argparse.Namespace:
         type=str,
         required=True,
     )
-
     return parser.parse_args(args)

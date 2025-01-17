@@ -65,7 +65,7 @@ class IntegrationTestsInfrastructure(cdk.Stack):
         s3_deploy.BucketDeployment(
             self,
             "S3ArtifactsDeployment",
-            sources=[s3_deploy.Source.asset(assets_path)],
+            sources=[s3_deploy.Source.asset(assets_path)],  # type: ignore
             destination_bucket=self.artifacts_bucket,
             destination_key_prefix="artifacts",
         )

@@ -1,0 +1,769 @@
+{
+    "kyverno_policy_reporter": {
+        "chart": {
+            "apiVersion": "v2",
+            "appVersion": "2.20.2",
+            "dependencies": [
+                {
+                    "condition": "monitoring.enabled",
+                    "name": "monitoring",
+                    "repository": "",
+                    "version": "2.8.2"
+                },
+                {
+                    "condition": "ui.enabled",
+                    "name": "ui",
+                    "repository": "",
+                    "version": "2.10.5"
+                },
+                {
+                    "condition": "kyvernoPlugin.enabled",
+                    "name": "kyvernoPlugin",
+                    "repository": "",
+                    "version": "1.6.5"
+                }
+            ],
+            "description": "Policy Reporter watches for PolicyReport Resources. It creates Prometheus Metrics and can send rule validation events to different targets like Loki, Elasticsearch, Slack or Discord ",
+            "home": "https://kyverno.github.io/policy-reporter",
+            "icon": "https://github.com/kyverno/kyverno/raw/main/img/logo.png",
+            "maintainers": [
+                {
+                    "name": "Frank Jogeleit"
+                }
+            ],
+            "name": "policy-reporter",
+            "sources": [
+                "https://github.com/kyverno/policy-reporter"
+            ],
+            "type": "application",
+            "version": "2.24.2"
+        },
+        "values": {
+            "nameOverride": "",
+            "image": {
+                "registry": "ghcr.io",
+                "repository": "kyverno/policy-reporter",
+                "pullPolicy": "IfNotPresent",
+                "tag": "2.20.2"
+            },
+            "imagePullSecrets": [],
+            "priorityClassName": "",
+            "replicaCount": 1,
+            "revisionHistoryLimit": 10,
+            "deploymentStrategy": {},
+            "port": {
+                "name": "http",
+                "number": 8080
+            },
+            "annotations": {},
+            "rbac": {
+                "enabled": true
+            },
+            "serviceAccount": {
+                "create": true,
+                "annotations": {},
+                "name": ""
+            },
+            "service": {
+                "enabled": true,
+                "annotations": {},
+                "labels": {},
+                "type": "ClusterIP",
+                "port": 8080
+            },
+            "podSecurityContext": {
+                "fsGroup": 1234
+            },
+            "securityContext": {
+                "runAsUser": 1234,
+                "runAsNonRoot": true,
+                "privileged": false,
+                "allowPrivilegeEscalation": false,
+                "readOnlyRootFilesystem": true,
+                "capabilities": {
+                    "drop": [
+                        "ALL"
+                    ]
+                },
+                "seccompProfile": {
+                    "type": "RuntimeDefault"
+                }
+            },
+            "podAnnotations": {},
+            "podLabels": {},
+            "envVars": [],
+            "resources": {},
+            "networkPolicy": {
+                "enabled": false,
+                "egress": [
+                    {
+                        "to": null,
+                        "ports": [
+                            {
+                                "protocol": "TCP",
+                                "port": 6443
+                            }
+                        ]
+                    }
+                ],
+                "ingress": []
+            },
+            "ingress": {
+                "enabled": false,
+                "className": "",
+                "labels": {},
+                "annotations": {},
+                "hosts": [
+                    {
+                        "host": "chart-example.local",
+                        "paths": []
+                    }
+                ],
+                "tls": []
+            },
+            "logging": {
+                "encoding": "console",
+                "logLevel": 0,
+                "development": false
+            },
+            "api": {
+                "logging": false
+            },
+            "rest": {
+                "enabled": false
+            },
+            "metrics": {
+                "enabled": false,
+                "mode": "detailed",
+                "customLabels": []
+            },
+            "profiling": {
+                "enabled": false
+            },
+            "worker": 5,
+            "reportFilter": {
+                "namespaces": {
+                    "include": [],
+                    "exclude": []
+                },
+                "clusterReports": {
+                    "disabled": false
+                }
+            },
+            "sourceConfig": {},
+            "ui": {
+                "enabled": false
+            },
+            "kyvernoPlugin": {
+                "enabled": false
+            },
+            "monitoring": {
+                "enabled": false
+            },
+            "database": {
+                "type": "",
+                "database": "",
+                "username": "",
+                "password": "",
+                "host": "",
+                "enableSSL": false,
+                "dsn": "",
+                "secretRef": "",
+                "mountedSecret": ""
+            },
+            "global": {
+                "plugins": {
+                    "kyverno": false
+                },
+                "backend": "",
+                "fullnameOverride": "",
+                "namespace": "",
+                "labels": {},
+                "basicAuth": {
+                    "username": "",
+                    "password": "",
+                    "secretRef": ""
+                }
+            },
+            "emailReports": {
+                "clusterName": "",
+                "titlePrefix": "Report",
+                "smtp": {
+                    "secret": "",
+                    "host": "",
+                    "port": 465,
+                    "username": "",
+                    "password": "",
+                    "from": "",
+                    "encryption": "",
+                    "skipTLS": false,
+                    "certificate": ""
+                },
+                "summary": {
+                    "enabled": false,
+                    "schedule": "0 8 * * *",
+                    "activeDeadlineSeconds": 300,
+                    "backoffLimit": 3,
+                    "ttlSecondsAfterFinished": 0,
+                    "restartPolicy": "Never",
+                    "to": [],
+                    "filter": {},
+                    "channels": []
+                },
+                "violations": {
+                    "enabled": false,
+                    "schedule": "0 8 * * *",
+                    "activeDeadlineSeconds": 300,
+                    "backoffLimit": 3,
+                    "ttlSecondsAfterFinished": 0,
+                    "restartPolicy": "Never",
+                    "to": [],
+                    "filter": {},
+                    "channels": []
+                },
+                "resources": {}
+            },
+            "existingTargetConfig": {
+                "enabled": false,
+                "name": "",
+                "subPath": ""
+            },
+            "target": {
+                "loki": {
+                    "host": "",
+                    "certificate": "",
+                    "skipTLS": false,
+                    "secretRef": "",
+                    "mountedSecret": "",
+                    "path": "",
+                    "minimumPriority": "",
+                    "sources": [],
+                    "skipExistingOnStartup": true,
+                    "customLabels": {},
+                    "headers": {},
+                    "username": "",
+                    "password": "",
+                    "filter": {},
+                    "channels": []
+                },
+                "elasticsearch": {
+                    "host": "",
+                    "certificate": "",
+                    "skipTLS": false,
+                    "index": "",
+                    "username": "",
+                    "password": "",
+                    "apiKey": "",
+                    "secretRef": "",
+                    "mountedSecret": "",
+                    "rotation": "",
+                    "minimumPriority": "",
+                    "sources": [],
+                    "skipExistingOnStartup": true,
+                    "typelessApi": false,
+                    "customFields": {},
+                    "filter": {},
+                    "channels": []
+                },
+                "slack": {
+                    "webhook": "",
+                    "channel": "",
+                    "secretRef": "",
+                    "mountedSecret": "",
+                    "minimumPriority": "",
+                    "sources": [],
+                    "skipExistingOnStartup": true,
+                    "customFields": {},
+                    "filter": {},
+                    "channels": []
+                },
+                "discord": {
+                    "webhook": "",
+                    "secretRef": "",
+                    "mountedSecret": "",
+                    "minimumPriority": "",
+                    "sources": [],
+                    "skipExistingOnStartup": true,
+                    "filter": {},
+                    "channels": []
+                },
+                "teams": {
+                    "webhook": "",
+                    "secretRef": "",
+                    "mountedSecret": "",
+                    "certificate": "",
+                    "skipTLS": false,
+                    "minimumPriority": "",
+                    "sources": [],
+                    "skipExistingOnStartup": true,
+                    "filter": {},
+                    "channels": []
+                },
+                "ui": {
+                    "host": "",
+                    "certificate": "",
+                    "skipTLS": false,
+                    "minimumPriority": "warning",
+                    "sources": [],
+                    "skipExistingOnStartup": true
+                },
+                "webhook": {
+                    "host": "",
+                    "certificate": "",
+                    "skipTLS": false,
+                    "secretRef": "",
+                    "mountedSecret": "",
+                    "headers": {},
+                    "minimumPriority": "",
+                    "sources": [],
+                    "skipExistingOnStartup": true,
+                    "customFields": {},
+                    "filter": {},
+                    "channels": []
+                },
+                "telegram": {
+                    "token": "",
+                    "chatID": "",
+                    "host": "",
+                    "certificate": "",
+                    "skipTLS": false,
+                    "secretRef": "",
+                    "mountedSecret": "",
+                    "headers": {},
+                    "minimumPriority": "",
+                    "sources": [],
+                    "skipExistingOnStartup": true,
+                    "customFields": {},
+                    "filter": {},
+                    "channels": []
+                },
+                "googleChat": {
+                    "webhook": "",
+                    "certificate": "",
+                    "skipTLS": false,
+                    "secretRef": "",
+                    "mountedSecret": "",
+                    "headers": {},
+                    "minimumPriority": "",
+                    "sources": [],
+                    "skipExistingOnStartup": true,
+                    "customFields": {},
+                    "filter": {},
+                    "channels": []
+                },
+                "s3": {
+                    "accessKeyID": "",
+                    "secretAccessKey": "",
+                    "secretRef": "",
+                    "mountedSecret": "",
+                    "region": "",
+                    "endpoint": "",
+                    "bucket": "",
+                    "bucketKeyEnabled": false,
+                    "kmsKeyId": "",
+                    "serverSideEncryption": "",
+                    "pathStyle": false,
+                    "prefix": "",
+                    "minimumPriority": "",
+                    "sources": [],
+                    "skipExistingOnStartup": true,
+                    "customFields": {},
+                    "filter": {},
+                    "channels": []
+                },
+                "kinesis": {
+                    "accessKeyID": "",
+                    "secretAccessKey": "",
+                    "secretRef": "",
+                    "mountedSecret": "",
+                    "region": "",
+                    "endpoint": "",
+                    "streamName": "",
+                    "minimumPriority": "",
+                    "sources": [],
+                    "skipExistingOnStartup": true,
+                    "customFields": {},
+                    "filter": {},
+                    "channels": []
+                },
+                "securityHub": {
+                    "accessKeyID": "",
+                    "secretAccessKey": "",
+                    "secretRef": "",
+                    "mountedSecret": "",
+                    "region": "",
+                    "endpoint": "",
+                    "accountID": "",
+                    "productName": "",
+                    "minimumPriority": "",
+                    "sources": [],
+                    "skipExistingOnStartup": true,
+                    "cleanup": false,
+                    "delayInSeconds": 2,
+                    "customFields": {},
+                    "filter": {},
+                    "channels": []
+                },
+                "gcs": {
+                    "credentials": "",
+                    "secretRef": "",
+                    "mountedSecret": "",
+                    "bucket": "",
+                    "minimumPriority": "",
+                    "sources": [],
+                    "skipExistingOnStartup": true,
+                    "customFields": {},
+                    "filter": {},
+                    "channels": []
+                }
+            },
+            "leaderElection": {
+                "enabled": false,
+                "releaseOnCancel": true,
+                "leaseDuration": 15,
+                "renewDeadline": 10,
+                "retryPeriod": 2
+            },
+            "redis": {
+                "enabled": false,
+                "address": "",
+                "database": 0,
+                "prefix": "policy-reporter",
+                "username": "",
+                "password": ""
+            },
+            "podDisruptionBudget": {
+                "minAvailable": 1,
+                "maxUnavailable": null
+            },
+            "nodeSelector": {},
+            "tolerations": [],
+            "affinity": {},
+            "topologySpreadConstraints": [],
+            "livenessProbe": {
+                "httpGet": {
+                    "path": "/healthz",
+                    "port": "http"
+                }
+            },
+            "readinessProbe": {
+                "httpGet": {
+                    "path": "/ready",
+                    "port": "http"
+                }
+            },
+            "extraVolumes": {
+                "volumeMounts": [],
+                "volumes": []
+            },
+            "sqliteVolume": {},
+            "tmpVolume": {}
+        },
+        "subcharts": {
+            "ui": {
+                "chart": {
+                    "apiVersion": "v2",
+                    "appVersion": "1.9.2",
+                    "description": "Policy Reporter UI",
+                    "name": "ui",
+                    "type": "application",
+                    "version": "2.10.5"
+                },
+                "values": {
+                    "enabled": false,
+                    "nameOverride": "",
+                    "priorityClassName": "",
+                    "image": {
+                        "registry": "ghcr.io",
+                        "repository": "kyverno/policy-reporter-ui",
+                        "pullPolicy": "IfNotPresent",
+                        "tag": "1.9.2"
+                    },
+                    "sidecarContainers": {},
+                    "displayMode": "",
+                    "refreshInterval": 10000,
+                    "annotations": {},
+                    "log": {
+                        "size": 200
+                    },
+                    "views": {
+                        "dashboard": {
+                            "policyReports": true,
+                            "clusterPolicyReports": true
+                        },
+                        "logs": true,
+                        "policyReports": true,
+                        "clusterPolicyReports": true,
+                        "kyvernoPolicies": true,
+                        "kyvernoVerifyImages": true
+                    },
+                    "plugins": {
+                        "kyverno": false
+                    },
+                    "clusterName": "",
+                    "clusters": [],
+                    "labelFilter": [],
+                    "logging": {
+                        "encoding": "console",
+                        "logLevel": 0,
+                        "development": false
+                    },
+                    "api": {
+                        "logging": false,
+                        "overwriteHost": true
+                    },
+                    "redis": {
+                        "enabled": false,
+                        "address": "",
+                        "database": 0,
+                        "prefix": "policy-reporter-ui",
+                        "username": "",
+                        "password": ""
+                    },
+                    "policyReporter": {
+                        "port": 8080
+                    },
+                    "kyvernoPlugin": {
+                        "port": 8080
+                    },
+                    "volumes": [],
+                    "volumeMounts": [],
+                    "imagePullSecrets": [],
+                    "replicaCount": 1,
+                    "revisionHistoryLimit": 10,
+                    "deploymentStrategy": {},
+                    "securityContext": {
+                        "runAsUser": 1234,
+                        "runAsNonRoot": true,
+                        "privileged": false,
+                        "allowPrivilegeEscalation": false,
+                        "readOnlyRootFilesystem": true,
+                        "capabilities": {
+                            "drop": [
+                                "ALL"
+                            ]
+                        },
+                        "seccompProfile": {
+                            "type": "RuntimeDefault"
+                        }
+                    },
+                    "podAnnotations": {},
+                    "podLabels": {},
+                    "envVars": [],
+                    "resources": {},
+                    "serviceAccount": {
+                        "create": true,
+                        "annotations": {},
+                        "name": ""
+                    },
+                    "rbac": {
+                        "enabled": true
+                    },
+                    "service": {
+                        "enabled": true,
+                        "annotations": {},
+                        "labels": {},
+                        "type": "ClusterIP",
+                        "port": 8080,
+                        "additionalPorts": []
+                    },
+                    "podDisruptionBudget": {
+                        "minAvailable": 1,
+                        "maxUnavailable": null
+                    },
+                    "ingress": {
+                        "enabled": false,
+                        "className": "",
+                        "labels": {},
+                        "annotations": {},
+                        "hosts": [
+                            {
+                                "host": "chart-example.local",
+                                "paths": []
+                            }
+                        ],
+                        "tls": []
+                    },
+                    "nodeSelector": {},
+                    "tolerations": [],
+                    "affinity": {},
+                    "topologySpreadConstraints": [],
+                    "networkPolicy": {
+                        "enabled": false,
+                        "egress": []
+                    },
+                    "global": {
+                        "plugins": {
+                            "kyverno": false
+                        },
+                        "fullnameOverride": "",
+                        "namespace": "",
+                        "labels": {},
+                        "basicAuth": {
+                            "username": "",
+                            "password": "",
+                            "secretRef": ""
+                        }
+                    },
+                    "extraManifests": []
+                }
+            },
+            "kyvernoPlugin": {
+                "chart": {
+                    "apiVersion": "v2",
+                    "appVersion": "1.6.3",
+                    "description": "Policy Reporter Kyverno Plugin",
+                    "name": "kyvernoPlugin",
+                    "type": "application",
+                    "version": "1.6.5"
+                },
+                "values": {
+                    "image": {
+                        "registry": "ghcr.io",
+                        "repository": "kyverno/policy-reporter-kyverno-plugin",
+                        "pullPolicy": "IfNotPresent",
+                        "tag": "1.6.3"
+                    },
+                    "imagePullSecrets": [],
+                    "priorityClassName": "",
+                    "replicaCount": 1,
+                    "revisionHistoryLimit": 10,
+                    "deploymentStrategy": {},
+                    "port": {
+                        "name": "rest",
+                        "number": 8080
+                    },
+                    "annotations": {},
+                    "rbac": {
+                        "enabled": true
+                    },
+                    "serviceAccount": {
+                        "create": true,
+                        "annotations": {},
+                        "name": ""
+                    },
+                    "service": {
+                        "enabled": true,
+                        "annotations": {},
+                        "labels": {},
+                        "port": 8080,
+                        "type": "ClusterIP"
+                    },
+                    "ingress": {
+                        "enabled": false,
+                        "className": "",
+                        "labels": {},
+                        "annotations": {},
+                        "hosts": [
+                            {
+                                "host": "chart-example.local",
+                                "paths": []
+                            }
+                        ],
+                        "tls": []
+                    },
+                    "podSecurityContext": {
+                        "runAsUser": 1234,
+                        "runAsGroup": 1234
+                    },
+                    "securityContext": {
+                        "runAsUser": 1234,
+                        "runAsNonRoot": true,
+                        "privileged": false,
+                        "allowPrivilegeEscalation": false,
+                        "readOnlyRootFilesystem": true,
+                        "capabilities": {
+                            "drop": [
+                                "ALL"
+                            ]
+                        },
+                        "seccompProfile": {
+                            "type": "RuntimeDefault"
+                        }
+                    },
+                    "podAnnotations": {},
+                    "podLabels": {},
+                    "envVars": [],
+                    "resources": {},
+                    "nodeSelector": {},
+                    "tolerations": [],
+                    "affinity": {},
+                    "topologySpreadConstraints": [],
+                    "livenessProbe": {
+                        "httpGet": {
+                            "path": "/healthz",
+                            "port": "rest"
+                        }
+                    },
+                    "readinessProbe": {
+                        "httpGet": {
+                            "path": "/ready",
+                            "port": "rest"
+                        }
+                    },
+                    "rest": {
+                        "enabled": true
+                    },
+                    "metrics": {
+                        "enabled": true
+                    },
+                    "logging": {
+                        "encoding": "console",
+                        "logLevel": 0,
+                        "development": false
+                    },
+                    "api": {
+                        "logging": false
+                    },
+                    "blockReports": {
+                        "enabled": false,
+                        "eventNamespace": "default",
+                        "results": {
+                            "maxPerReport": 200,
+                            "keepOnlyLatest": false
+                        }
+                    },
+                    "leaderElection": {
+                        "enabled": false,
+                        "releaseOnCancel": true,
+                        "leaseDuration": 15,
+                        "renewDeadline": 10,
+                        "retryPeriod": 2
+                    },
+                    "podDisruptionBudget": {
+                        "minAvailable": 1,
+                        "maxUnavailable": null
+                    },
+                    "networkPolicy": {
+                        "enabled": false,
+                        "egress": [
+                            {
+                                "to": null,
+                                "ports": [
+                                    {
+                                        "protocol": "TCP",
+                                        "port": 6443
+                                    }
+                                ]
+                            }
+                        ],
+                        "ingress": []
+                    },
+                    "global": {
+                        "plugins": {
+                            "kyverno": false
+                        },
+                        "fullnameOverride": "",
+                        "namespace": "",
+                        "labels": {},
+                        "basicAuth": {
+                            "username": "",
+                            "password": "",
+                            "secretRef": ""
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

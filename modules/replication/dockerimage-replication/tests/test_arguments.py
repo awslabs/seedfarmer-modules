@@ -3,7 +3,7 @@
 
 import unittest
 
-from helmparser.arguments import parse_args
+from replication.arguments import parse_args
 
 
 class TestArguments(unittest.TestCase):

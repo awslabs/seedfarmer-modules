@@ -5,7 +5,7 @@ import unittest
 from unittest import mock
 from unittest.mock import mock_open
 
-from helmparser.helm import commands
+from replication.helm import commands
 
 
 class TestCommands(unittest.TestCase):
@@ -19,6 +19,30 @@ class TestCommands(unittest.TestCase):
         mock_subproc_popen.return_value = process_mock
 
         commands.add_repo("name", "repo")
+        self.assertTrue(mock_subproc_popen.called)
+
+    @mock.patch("subprocess.Popen")
+    def test_add_repo_with_creds(self, mock_subproc_popen):
+        process_mock = mock.Mock()
+        attrs = {
+            "communicate.return_value": ("output", "error"),
+        }
+        process_mock.configure_mock(**attrs)
+        mock_subproc_popen.return_value = process_mock
+
+        commands.add_repo("name", "repo", "user", "pwd")
+        self.assertTrue(mock_subproc_popen.called)
+
+    @mock.patch("subprocess.Popen")
+    def test_add_repo_with_creds_no_pwd(self, mock_subproc_popen):
+        process_mock = mock.Mock()
+        attrs = {
+            "communicate.return_value": ("output", "error"),
+        }
+        process_mock.configure_mock(**attrs)
+        mock_subproc_popen.return_value = process_mock
+
+        commands.add_repo("name", "repo", "user", None)
         self.assertTrue(mock_subproc_popen.called)
 
     @mock.patch("subprocess.Popen")

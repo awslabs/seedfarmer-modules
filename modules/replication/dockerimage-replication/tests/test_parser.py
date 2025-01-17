@@ -3,7 +3,7 @@
 
 import unittest
 
-from helmparser.parser import parser
+from replication.parser import parser
 
 
 class TestParser(unittest.TestCase):

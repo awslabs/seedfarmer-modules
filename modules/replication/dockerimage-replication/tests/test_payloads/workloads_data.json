@@ -1,0 +1,61 @@
+{
+    "kyverno_policy_reporter": {
+        "images": {
+            "kyverno_plugin": {
+                "registry": {
+                    "location": "values",
+                    "path": "image.registry",
+                    "subchart": "kyvernoPlugin"
+                },
+                "repository": {
+                    "location": "values",
+                    "path": "image.repository",
+                    "subchart": "kyvernoPlugin"
+                },
+                "tag": {
+                    "location": "values",
+                    "path": "image.tag",
+                    "subchart": "kyvernoPlugin"
+                }
+            },
+            "kyverno_policy_reporter": {
+                "registry": {
+                    "location": "values",
+                    "path": "image.registry"
+                },
+                "repository": {
+                    "location": "values",
+                    "path": "image.repository"
+                },
+                "tag": {
+                    "location": "values",
+                    "path": "image.tag"
+                }
+            },
+            "ui": {
+                "registry": {
+                    "location": "values",
+                    "path": "image.registry",
+                    "subchart": "ui"
+                },
+                "repository": {
+                    "location": "values",
+                    "path": "image.repository",
+                    "subchart": "ui"
+                },
+                "tag": {
+                    "location": "values",
+                    "path": "image.tag",
+                    "subchart": "ui"
+                }
+            }
+        },
+        "name": "policy-reporter",
+        "repository": "https://customdns/charts/helm-remote-kyverno-gh-io-policy-rep/",
+        "subcharts": [
+            "ui",
+            "kyvernoPlugin"
+        ],
+        "version": "2.24.2"
+    }
+}
